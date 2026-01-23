@@ -8,7 +8,6 @@ mod control;
 #[cfg(feature = "smartled")]
 mod esp_hal_smartled;
 mod hid_report_writer;
-mod indicator;
 #[cfg(feature = "ota")]
 mod ota;
 mod running_state;
@@ -21,7 +20,6 @@ pub use barrier_client::*;
 pub use clipboard::{button_task, set_clipboard};
 pub use config::{AppConfig, ConfigStore};
 pub use hid_report_writer::{HidReport, send_hid_report, start_hid_task};
-pub use indicator::*;
 #[cfg(feature = "ota")]
 pub use ota::OTA_IN_PROGRESS;
 pub use running_state::{RunningState, get_running_state};

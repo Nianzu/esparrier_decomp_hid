@@ -1,8 +1,7 @@
 use log::{debug, info, warn};
 
 use crate::{
-    Actuator, AppConfig, BarrierError, HidReport, IndicatorStatus, send_hid_report,
-    set_indicator_status,
+    Actuator, AppConfig, BarrierError, HidReport, send_hid_report,
     synergy_hid::{ReportType, SynergyHid, modifier_mask_to_synergy},
 };
 
@@ -49,13 +48,11 @@ impl Default for UsbActuator {
 impl Actuator for UsbActuator {
     async fn connected(&mut self) -> Result<(), BarrierError> {
         info!("Connected to Barrier");
-        set_indicator_status(IndicatorStatus::ServerConnected).await;
         Ok(())
     }
 
     async fn disconnected(&mut self) -> Result<(), BarrierError> {
         warn!("Disconnected from Barrier");
-        set_indicator_status(IndicatorStatus::ServerConnected).await;
         Ok(())
     }
 
@@ -162,7 +159,6 @@ impl Actuator for UsbActuator {
         for key in mods {
             self.key_down(*key, 0, 0).await?;
         }
-        set_indicator_status(IndicatorStatus::Active).await;
         Ok(())
     }
 
@@ -175,7 +171,6 @@ impl Actuator for UsbActuator {
         self.send_report(ret).await;
         let ret = self.hid.clear(ReportType::Consumer, &mut report);
         self.send_report(ret).await;
-        set_indicator_status(IndicatorStatus::ServerConnected).await;
         Ok(())
     }
 }
