@@ -1,6 +1,5 @@
 #![no_std]
 
-mod barrier_client;
 #[cfg(feature = "clipboard")]
 mod clipboard;
 mod config;
@@ -10,17 +9,14 @@ mod esp_hal_smartled;
 mod hid_report_writer;
 mod running_state;
 mod synergy_hid;
-mod usb_actuator;
 
 pub mod constants;
-pub use barrier_client::*;
 #[cfg(feature = "clipboard")]
 pub use clipboard::{button_task, set_clipboard};
 pub use config::{AppConfig, ConfigStore};
 pub use hid_report_writer::{HidReport, send_hid_report, start_hid_task};
 pub use running_state::{RunningState, get_running_state};
 pub use synergy_hid::{ReportType, SynergyHid, ASCII_2_HID, KeyboardReport};
-pub use usb_actuator::UsbActuator;
 
 #[macro_export]
 macro_rules! mk_static {
