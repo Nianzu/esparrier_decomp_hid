@@ -12,7 +12,6 @@ use embassy_sync::{
 use embassy_time::{Duration, with_timeout};
 use embassy_usb::{
     class::hid::HidWriter,
-    class::web_usb::{Config as WebUsbConfig, State as WebUsbState, Url as WebUsbUrl},
     msos::{self, windows_version},
 };
 use esp_hal::{
@@ -242,8 +241,6 @@ pub fn start_hid_task(spawner: Spawner, usb: Usb<'static>) {
         "DeviceInterfaceGUIDs",
         msos::PropertyData::RegMultiSz(DEVICE_INTERFACE_GUIDS),
     ));
-    let mut interface = function.interface();
-    let mut alt = interface.alt_setting(0xFF, 0x0D, 0x0A, None);
     drop(function);
 
     // // Run the USB device.
@@ -262,17 +259,7 @@ async fn usb_task(builder: embassy_usb::Builder<'static, Driver<'static>>) {
     // I highly doubt there are some kind of race conditions inside of the OTG_FS driver.
     // M5Atom S3 cannot start the USB peripheral without a delay, but S3 Lite can.
     embassy_time::Timer::after(embassy_time::Duration::from_secs(1)).await;
-    cfg_if::cfg_if! {
-        if #[cfg(feature = "usb")] {
             // Build the builder.
             let mut usb = builder.build();
             usb.run().await;
-        } else {
-            let _builder = builder;
-            log::warn!("USB feature is disabled.");
-            loop {
-                embassy_time::Timer::after(embassy_time::Duration::from_secs(3600)).await;
-            }
-        }
-    }
 }

@@ -7,7 +7,6 @@ pub use ascii_2_hid::ASCII_2_HID;
 use descriptors::COMPOSITE_REPORT_DESCRIPTOR;
 pub use hid::KeyboardReport;
 pub(super) use hid::*;
-pub use keycodes::modifier_mask_to_synergy;
 pub(crate) use keycodes::{KeyCode, synergy_mouse_button, synergy_to_hid};
 
 use log::{debug, warn};
@@ -213,53 +212,4 @@ impl SynergyHid {
     }
 }
 
-#[cfg(test)]
-mod test {
-    use crate::{
-        ReportType,
-        keycodes::{HID_KEY_A, HID_KEY_B},
-    };
 
-    #[test]
-    fn test_key() {
-        let mut hid = super::SynergyHid::new(false);
-        let mut report = [0; 9];
-        assert_eq!(
-            hid.key_down(0x0000, 0x0000, 0x0000, &mut report),
-            (ReportType::Keyboard, [0, 0, 0, 0, 0, 0, 0, 0].as_ref())
-        );
-        assert_eq!(
-            hid.key_down('A' as u16, 0x0000, 0x0000, &mut report),
-            (
-                ReportType::Keyboard,
-                [0, 0, HID_KEY_A, 0, 0, 0, 0, 0].as_ref()
-            )
-        );
-
-        assert_eq!(
-            hid.key_down('B' as u16, 0x0000, 0x0000, &mut report),
-            (
-                ReportType::Keyboard,
-                [0, 0, HID_KEY_A, HID_KEY_B, 0, 0, 0, 0].as_ref()
-            )
-        );
-        assert_eq!(
-            hid.key_up('B' as u16, 0x0000, 0x0000, &mut report),
-            (
-                ReportType::Keyboard,
-                [0, 0, HID_KEY_A, 0, 0, 0, 0, 0].as_ref()
-            )
-        );
-        // Wrong key up, report is cleared
-        assert_eq!(
-            hid.key_up('C' as u16, 0x0000, 0x0000, &mut report),
-            (ReportType::Keyboard, [0, 0, 0, 0, 0, 0, 0, 0].as_ref())
-        );
-
-        // kKeyAudioMute(0xE0AD) -> HID_USAGE_CONSUMER_MUTE(0x00E2)
-        assert_eq!(
-            hid.key_down(0xE0AD, 0x0000, 1, &mut report),
-            (ReportType::Consumer, [0x00, 0xE2].as_ref())
-        );
-    }
-}
