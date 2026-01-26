@@ -171,8 +171,6 @@ impl embassy_usb::Handler for MyDeviceHandler {
 
 static HID_REPORT_SENDER: OnceLock<HidReportSender> = OnceLock::new();
 
-pub async fn send_ascii_keypress(byte: u8) {}
-
 pub async fn send_hid_report(report: HidReport) {
     HID_REPORT_SENDER.get().await.send(report).await;
 }
