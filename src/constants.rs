@@ -5,7 +5,7 @@ const VERSION_SEGMENTS: [&str; 3] = split!(env!("CARGO_PKG_VERSION"), ".");
 pub const VERSION_MAJOR: u8 = parse!(VERSION_SEGMENTS[0], u8);
 pub const VERSION_MINOR: u8 = parse!(VERSION_SEGMENTS[1], u8);
 pub const VERSION_PATCH: u8 = parse!(VERSION_SEGMENTS[2], u8);
-        pub const MODEL_ID: u8 = 6;
+pub const MODEL_ID: u8 = 6;
 const LED_INDICATOR_FLAG: u8 = 0b0000_0000;
 const SMARTLED_INDICATOR_FLAG: u8 = 0b0000_0000;
 const GRAPHICS_INDICATOR_FLAG: u8 = 0b0000_0000;
@@ -19,7 +19,7 @@ pub const FEATURE_FLAGS: u8 = LED_INDICATOR_FLAG
     | CLIPBOARD_FLAG
     | OTA_FLAG;
 
-        pub const LED_PIN: u8 = 21;
+pub const LED_PIN: u8 = 21;
 
 #[env_item]
 pub const MAX_CLIPBOARD_SIZE: usize = 1024;
@@ -56,4 +56,3 @@ pub const USB_PRODUCT: &str = "Esparrier KVM";
 pub const USB_SERIAL_NUMBER: &str = "88888888";
 
 pub const DEVICE_INTERFACE_GUIDS: &[&str] = &["{4d36e96c-e325-11ce-bfc1-08002be10318}"];
-

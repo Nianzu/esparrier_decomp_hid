@@ -211,5 +211,3 @@ impl SynergyHid {
             && self.consumer_report.is_empty()
     }
 }
-
-

@@ -67,7 +67,7 @@ impl<'a> UsbHidReportWriter<'a> {
     pub fn new(hid_report_writer: ReportWriter<'a, 9>) -> Self {
         Self {
             hid_report_writer,
-            polling_interval:  5,
+            polling_interval: 5,
         }
     }
 }
@@ -171,12 +171,13 @@ impl embassy_usb::Handler for MyDeviceHandler {
 
 static HID_REPORT_SENDER: OnceLock<HidReportSender> = OnceLock::new();
 
+pub async fn send_ascii_keypress(byte: u8) {}
+
 pub async fn send_hid_report(report: HidReport) {
     HID_REPORT_SENDER.get().await.send(report).await;
 }
 
 pub fn start_hid_task(spawner: Spawner, usb: Usb<'static>) {
-
     let ep_out_buffer = mk_static!([u8; 1024], [0u8; 1024]);
     let config = esp_hal::otg_fs::asynch::Config::default();
     let driver = esp_hal::otg_fs::asynch::Driver::new(usb, ep_out_buffer, config);
@@ -224,7 +225,7 @@ pub fn start_hid_task(spawner: Spawner, usb: Usb<'static>) {
     let config = embassy_usb::class::hid::Config {
         report_descriptor: SynergyHid::get_report_descriptor().1,
         request_handler: None,
-        poll_ms:5, 
+        poll_ms: 5,
         max_packet_size: 64,
     };
 
@@ -259,7 +260,7 @@ async fn usb_task(builder: embassy_usb::Builder<'static, Driver<'static>>) {
     // I highly doubt there are some kind of race conditions inside of the OTG_FS driver.
     // M5Atom S3 cannot start the USB peripheral without a delay, but S3 Lite can.
     embassy_time::Timer::after(embassy_time::Duration::from_secs(1)).await;
-            // Build the builder.
-            let mut usb = builder.build();
-            usb.run().await;
+    // Build the builder.
+    let mut usb = builder.build();
+    usb.run().await;
 }

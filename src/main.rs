@@ -15,12 +15,10 @@ use esp_println::println;
 use esp_rtos::main;
 use log::{debug, error, info, warn};
 
-#[allow(unused_imports)]
 use esparrier::constants::*;
 
 use esparrier::{
-    mk_static, 
-    start_hid_task, HidReport, send_hid_report, ASCII_2_HID, KeyboardReport,
+    ASCII_2_HID, HidReport, KeyboardReport, mk_static, send_hid_report, start_hid_task,
 };
 
 // This creates a default app-descriptor required by the esp-idf bootloader.
@@ -64,10 +62,10 @@ async fn main(spawner: Spawner) {
     let byte = 0x41;
     let [k, m] = ASCII_2_HID[byte as usize];
     let mut report = KeyboardReport::default();
-   loop {
-       send_hid_report(HidReport::keyboard(report.press(k))).await;
-       Timer::after(Duration::from_millis(1000)).await;
-   }
+    loop {
+        send_hid_report(HidReport::keyboard(report.press(k))).await;
+        Timer::after(Duration::from_millis(1000)).await;
+    }
 }
 
 #[embassy_executor::task]
@@ -77,4 +75,3 @@ async fn watchdog_task(watchdog: &'static mut Wdt<TIMG1<'static>>) {
         Timer::after(Duration::from_millis(500)).await;
     }
 }
-
