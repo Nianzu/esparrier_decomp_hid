@@ -16,9 +16,9 @@ use esp_rtos::main;
 use log::{debug, error, info, warn};
 
 use esparrier::constants::*;
-
+mod keycodes;
 use esparrier::{
-    ASCII_2_HID, HidReport, KeyboardReport, mk_static, send_hid_report, start_hid_task,
+    HidReport, KeyboardReport, mk_static, send_hid_report, start_hid_task,
 };
 
 // This creates a default app-descriptor required by the esp-idf bootloader.
@@ -60,10 +60,9 @@ async fn main(spawner: Spawner) {
 
     info!("Ready to send keypresses");
     let byte = 0x41;
-    let [k, m] = ASCII_2_HID[byte as usize];
     let mut report = KeyboardReport::default();
     loop {
-        send_hid_report(HidReport::keyboard(report.press(k))).await;
+        send_hid_report(HidReport::keyboard(report.press(keycodes::HID_KEY_A))).await;
         Timer::after(Duration::from_millis(1000)).await;
     }
 }

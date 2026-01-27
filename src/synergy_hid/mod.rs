@@ -1,13 +1,11 @@
-mod ascii_2_hid;
 mod descriptors;
 mod hid;
-mod keycodes;
+//mod keycodes;
 
-pub use ascii_2_hid::ASCII_2_HID;
 use descriptors::COMPOSITE_REPORT_DESCRIPTOR;
 pub use hid::KeyboardReport;
 pub(super) use hid::*;
-pub(crate) use keycodes::KeyCode;
+//pub(crate) use keycodes::KeyCode;
 
 use log::{debug, warn};
 
