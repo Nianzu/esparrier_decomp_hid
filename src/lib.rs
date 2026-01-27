@@ -1,9 +1,7 @@
 #![no_std]
 
-mod hid_report_writer;
 
 pub mod constants;
-pub use hid_report_writer::{HidReport, send_hid_report, start_hid_task};
 
 #[macro_export]
 macro_rules! mk_static {

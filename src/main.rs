@@ -14,11 +14,10 @@ use esp_hal::{
 use esp_println::println;
 use esp_rtos::main;
 use log::{info};
+use esparrier::mk_static;
 
 mod keycodes;
-use esparrier::{
-    HidReport, mk_static, send_hid_report, start_hid_task,
-};
+mod hid_report_writer;
 #[derive(Debug, Default)]
 pub struct KeyboardReport {
     modifier: u8,
@@ -149,12 +148,12 @@ async fn main(spawner: Spawner) {
 
     // Setup HID task
     let usb = Usb::new(peripherals.USB0, peripherals.GPIO20, peripherals.GPIO19);
-    start_hid_task(spawner, usb);
+    hid_report_writer::start_hid_task(spawner, usb);
 
     info!("Ready to send keypresses");
     let mut report = KeyboardReport::default();
     loop {
-        send_hid_report(HidReport::keyboard(report.press(keycodes::HID_KEY_B))).await;
+        hid_report_writer::send_hid_report(hid_report_writer::HidReport::keyboard(report.press(keycodes::HID_KEY_B))).await;
         Timer::after(Duration::from_millis(1000)).await;
     }
 }
