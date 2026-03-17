@@ -19,7 +19,6 @@ use esp_hal::{
 };
 use log::{debug, info, warn};
 use esparrier::mk_static;
-use esparrier::constants;
 
 type ReportWriter<'a, const N: usize> = HidWriter<'a, Driver<'a>, N>;
 
@@ -327,7 +326,7 @@ pub fn start_hid_task(spawner: Spawner, usb: Usb<'static>) {
     function.msos_feature(msos::CompatibleIdFeatureDescriptor::new("WINUSB", ""));
     function.msos_feature(msos::RegistryPropertyFeatureDescriptor::new(
         "DeviceInterfaceGUIDs",
-        msos::PropertyData::RegMultiSz(constants::DEVICE_INTERFACE_GUIDS),
+        msos::PropertyData::RegMultiSz(&["{4d36e96c-e325-11ce-bfc1-08002be10318}"]),
     ));
     drop(function);
 
