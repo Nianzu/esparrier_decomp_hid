@@ -115,8 +115,6 @@ pub const COMPOSITE_REPORT_DESCRIPTOR: &[u8] = &[
 #[derive(Debug)]
 pub enum HidReport {
     Keyboard([u8; 9]),
-    Mouse([u8; 8]),
-    Consumer([u8; 3]),
 }
 
 impl HidReport {
@@ -124,16 +122,6 @@ impl HidReport {
         Self::Keyboard([
             1, data[0], data[1], data[2], data[3], data[4], data[5], data[6], data[7],
         ])
-    }
-
-    pub fn mouse(data: [u8; 7]) -> Self {
-        Self::Mouse([
-            2, data[0], data[1], data[2], data[3], data[4], data[5], data[6],
-        ])
-    }
-
-    pub fn consumer(data: [u8; 2]) -> Self {
-        Self::Consumer([3, data[0], data[1]])
     }
 }
 
@@ -165,8 +153,6 @@ impl HidReportWriter for UsbHidReportWriter<'_> {
         debug!("Sending report: {report:?}");
         let data: &[u8] = match &report {
             HidReport::Keyboard(data) => data,
-            HidReport::Mouse(data) => data,
-            HidReport::Consumer(data) => data,
         };
         // Assuming 10 * polling_interval is enough time for the host to poll the device, but not too short or too long.
         let timeout = Duration::from_millis((self.polling_interval as u64 * 10).clamp(100, 200));
