@@ -13,11 +13,11 @@ use esp_hal::{
 };
 use esp_println::println;
 use esp_rtos::main;
-use log::{info};
-use esparrier::mk_static;
+use esp32_hid::mk_static;
+use log::info;
 
-mod keycodes;
-mod hid_report_writer;
+use esp32_hid::hid_report_writer;
+use esp32_hid::keycodes;
 
 #[derive(Debug, Default)]
 pub struct KeyboardReport {
@@ -113,14 +113,12 @@ impl KeyboardReport {
     }
 }
 
- 
 // This creates a default app-descriptor required by the esp-idf bootloader.
 // For more information see: <https://docs.espressif.com/projects/esp-idf/en/stable/esp32/api-reference/system/app_image_format.html#application-description>
 esp_bootloader_esp_idf::esp_app_desc!();
 
 #[main]
 async fn main(spawner: Spawner) {
-
     println!(
         "Firmware version: {} {}",
         env!("CARGO_PKG_NAME"),
@@ -157,7 +155,10 @@ async fn main(spawner: Spawner) {
     info!("Ready to send keypresses");
     let mut report = KeyboardReport::default();
     loop {
-        hid_report_writer::send_hid_report(hid_report_writer::HidReport::keyboard(report.press(keycodes::HID_KEY_B))).await;
+        hid_report_writer::send_hid_report(hid_report_writer::HidReport::keyboard(
+            report.press(keycodes::HID_KEY_B),
+        ))
+        .await;
         Timer::after(Duration::from_millis(1000)).await;
     }
 }

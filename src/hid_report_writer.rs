@@ -18,10 +18,8 @@ use esp_hal::{
     system,
 };
 use log::{debug, info, warn};
-use esparrier::mk_static;
 
 type ReportWriter<'a, const N: usize> = HidWriter<'a, Driver<'a>, N>;
-
 
 #[rustfmt::skip]
 pub const COMPOSITE_REPORT_DESCRIPTOR: &[u8] = &[

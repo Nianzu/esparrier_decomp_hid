@@ -13,3 +13,6 @@ macro_rules! mk_static {
         x
     }};
 }
+
+pub mod hid_report_writer;
+pub mod keycodes;

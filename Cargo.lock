@@ -977,6 +977,55 @@ dependencies = [
 ]
 
 [[package]]
+name = "esp32_hid"
+version = "0.9.1"
+dependencies = [
+ "async-debounce",
+ "cfg-if",
+ "const-str",
+ "const_env",
+ "critical-section",
+ "display-interface-spi",
+ "embassy-executor",
+ "embassy-futures",
+ "embassy-net",
+ "embassy-net-wiznet",
+ "embassy-sync 0.7.2",
+ "embassy-time",
+ "embassy-usb",
+ "embassy-usb-driver",
+ "embedded-graphics",
+ "embedded-hal 1.0.0",
+ "embedded-hal-async",
+ "embedded-hal-bus",
+ "embedded-io 0.7.1",
+ "embedded-io-async 0.6.1",
+ "embedded-storage",
+ "esp-alloc",
+ "esp-backtrace",
+ "esp-bootloader-esp-idf",
+ "esp-hal",
+ "esp-println",
+ "esp-radio",
+ "esp-rtos",
+ "esp-storage",
+ "fugit",
+ "heapless 0.9.2",
+ "log",
+ "mipidsi",
+ "rgb",
+ "serde",
+ "serde-json-core",
+ "smart-leds",
+ "smart-leds-trait",
+ "smoltcp",
+ "static_cell",
+ "thiserror-no-std",
+ "tinygif",
+ "usbd-hid",
+]
+
+[[package]]
 name = "esp32c2"
 version = "0.28.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1034,55 +1083,6 @@ checksum = "1810d8ee4845ef87542af981e38eb80ab531d0ef1061e1486014ab7af74c337a"
 dependencies = [
  "critical-section",
  "vcell",
-]
-
-[[package]]
-name = "esparrier"
-version = "0.9.1"
-dependencies = [
- "async-debounce",
- "cfg-if",
- "const-str",
- "const_env",
- "critical-section",
- "display-interface-spi",
- "embassy-executor",
- "embassy-futures",
- "embassy-net",
- "embassy-net-wiznet",
- "embassy-sync 0.7.2",
- "embassy-time",
- "embassy-usb",
- "embassy-usb-driver",
- "embedded-graphics",
- "embedded-hal 1.0.0",
- "embedded-hal-async",
- "embedded-hal-bus",
- "embedded-io 0.7.1",
- "embedded-io-async 0.6.1",
- "embedded-storage",
- "esp-alloc",
- "esp-backtrace",
- "esp-bootloader-esp-idf",
- "esp-hal",
- "esp-println",
- "esp-radio",
- "esp-rtos",
- "esp-storage",
- "fugit",
- "heapless 0.9.2",
- "log",
- "mipidsi",
- "rgb",
- "serde",
- "serde-json-core",
- "smart-leds",
- "smart-leds-trait",
- "smoltcp",
- "static_cell",
- "thiserror-no-std",
- "tinygif",
- "usbd-hid",
 ]
 
 [[package]]
