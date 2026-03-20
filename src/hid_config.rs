@@ -8,7 +8,7 @@ impl Default for HidConfig {
     fn default() -> Self {
         Self {
             manufacturer: "Unknown",
-            product: "esp31 HID device",
+            product: "esp32 HID device",
             serial_number: "037777777777",
         }
     }
