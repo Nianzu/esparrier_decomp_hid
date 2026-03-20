@@ -45,21 +45,20 @@ espup install
 cat ~/export-esp.sh >> ~/.bashrc
 ```
 
-- Generate your new project with esp-generate.
+- Generate your new project with esp-generate. Inside the esp-generate tool, select the features your project will need. This packages uses embassy, so you must enable unstable-hal and embassy. When you are done, save and generate the project.
 ```
 esp-generate --chip your-chip your-project-name
 ```
-  For example:
+    - For example:
 ```
 esp-generate --chip esp32s3 keyboard_project
 ```
-  Inside the esp-generate tool, select the features your project will need. This packages uses embassy, so you must enable unstable-hal and embassy. When you are done, save and generate the project.
 
 - Add this project as a dependency.
 ```
 cargo add esp32_hid
 ```
-  Note: you may have to increase your rust-version in Cargo.toml if it is below 1.89.
+    - Note: you may have to increase your rust-version in Cargo.toml if it is below 1.89.
 
 - Ready to go! Start a build with `cargo build`, and when you are ready to flash a device use `cargo run`.
 Note: you may have to add `default-features = false` to esp-println if you get a compiler error. This seems like an issue with the esp-generate template.
