@@ -1,3 +1,4 @@
+use crate::hid_config::HidConfig;
 use core::{
     future::Future,
     sync::atomic::{AtomicBool, Ordering},
@@ -18,7 +19,6 @@ use esp_hal::{
     system,
 };
 use log::{debug, info, warn};
-
 type ReportWriter<'a, const N: usize> = HidWriter<'a, Driver<'a>, N>;
 
 #[rustfmt::skip]
@@ -242,13 +242,13 @@ pub async fn send_hid_report(report: HidReport) {
     HID_REPORT_SENDER.get().await.send(report).await;
 }
 
-pub fn start_hid_task(spawner: Spawner, usb: Usb<'static>) {
+pub fn start_hid_task(spawner: Spawner, usb: Usb<'static>, hid_config: HidConfig) {
     let ep_out_buffer = mk_static!([u8; 1024], [0u8; 1024]);
     let config = esp_hal::otg_fs::asynch::Config::default();
     let driver = esp_hal::otg_fs::asynch::Driver::new(usb, ep_out_buffer, config);
     let mut config = embassy_usb::Config::new(0x0d0a, 0xc0de);
-    config.manufacturer = Some(&"0d0a.com");
-    config.product = Some(&"Esparrier KVM");
+    config.manufacturer = Some(hid_config.manufacturer);
+    config.product = Some(hid_config.product);
     // TODO: MacOs doesn't like these settings, why? Not sure about the last 2 but the 1st one is definitely the issue.
     // config.device_class = 0x03; // HID
     // config.device_sub_class = 0x01; // Boot Interface Subclass
@@ -257,7 +257,7 @@ pub fn start_hid_task(spawner: Spawner, usb: Usb<'static>) {
     config.device_sub_class = 0x02; // Common Class
     config.device_protocol = 0x01; // Interface Association Descriptor
     config.composite_with_iads = true;
-    config.serial_number = Some(&"88888888");
+    config.serial_number = Some(hid_config.serial_number);
     config.max_power = 100;
     config.max_packet_size_0 = 64;
 

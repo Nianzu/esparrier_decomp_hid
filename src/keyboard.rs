@@ -1,3 +1,4 @@
+use crate::hid_config::HidConfig;
 use crate::hid_report_writer;
 use crate::{
     hid_report_writer::{HidReport, send_hid_report},
@@ -11,8 +12,8 @@ pub struct Keyboard {
 }
 
 impl Keyboard {
-    pub fn new(spawner: Spawner, usb: Usb<'static>) -> Self {
-        hid_report_writer::start_hid_task(spawner, usb);
+    pub fn new(spawner: Spawner, usb: Usb<'static>, config: HidConfig) -> Self {
+        hid_report_writer::start_hid_task(spawner, usb, config);
         Self {
             keyboard_report: KeyboardReport::default(),
         }

@@ -1,7 +1,7 @@
 #![no_std]
 #![no_main]
 
-use esp32_hid::{keyboard::Keyboard, keycodes};
+use esp32_hid::{hid_config::HidConfig, keyboard::Keyboard, keycodes};
 extern crate alloc;
 use embassy_executor::Spawner;
 use embassy_time::{Duration, Timer};
@@ -55,7 +55,8 @@ async fn main(spawner: Spawner) {
     // Setup HID task
     // Uses USB GPIOs
     let usb = Usb::new(peripherals.USB0, peripherals.GPIO20, peripherals.GPIO19);
-    let mut keyboard = Keyboard::new(spawner, usb);
+    let config = HidConfig::default();
+    let mut keyboard = Keyboard::new(spawner, usb, config);
     // https://docs.espressif.com/projects/rust/esp-hal/1.0.0-beta.0/esp32/esp_hal/gpio/struct.Input.html
     let io = Io::new(peripherals.IO_MUX);
     let config = InputConfig::default().with_pull(Pull::Down);

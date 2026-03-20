@@ -17,6 +17,9 @@ keywords = [
     "keyboard",
 ]
 
+[lib]
+name = "esp32_hid"
+
 [dependencies]
 esp-bootloader-esp-idf = { version = "0.4.0", features = ["esp32s3"] }
 esp-backtrace = { version = "0.18.1", features = [
