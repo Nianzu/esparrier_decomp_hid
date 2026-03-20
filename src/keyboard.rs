@@ -21,4 +21,8 @@ impl Keyboard {
         let report = self.keyboard_report.press(keycode);
         send_hid_report(HidReport::keyboard(report)).await;
     }
+    pub async fn release(&mut self, keycode: u8) {
+        let report = self.keyboard_report.release(keycode);
+        send_hid_report(HidReport::keyboard(report)).await;
+    }
 }

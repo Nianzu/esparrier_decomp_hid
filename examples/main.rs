@@ -1,16 +1,14 @@
 #![no_std]
 #![no_main]
 
-use esp32_hid::{
-    keyboard::{self, Keyboard},
-    keycodes,
-};
+use esp32_hid::{keyboard::Keyboard, keycodes};
 extern crate alloc;
 use embassy_executor::Spawner;
 use embassy_time::{Duration, Timer};
 use esp_backtrace as _;
 use esp_hal::{
     clock::CpuClock,
+    gpio::{Input, InputConfig, Io, Pull},
     otg_fs::Usb,
     peripherals::TIMG1,
     timer::timg::{MwdtStage, MwdtStageAction, TimerGroup, Wdt},
@@ -58,16 +56,18 @@ async fn main(spawner: Spawner) {
     // Uses USB GPIOs
     let usb = Usb::new(peripherals.USB0, peripherals.GPIO20, peripherals.GPIO19);
     let mut keyboard = Keyboard::new(spawner, usb);
-
+    // https://docs.espressif.com/projects/rust/esp-hal/1.0.0-beta.0/esp32/esp_hal/gpio/struct.Input.html
+    let io = Io::new(peripherals.IO_MUX);
+    let config = InputConfig::default().with_pull(Pull::Down);
+    let button = Input::new(peripherals.GPIO2, config);
     info!("Ready to send keypresses");
-    //let mut report = KeyboardReport::default();
     loop {
-        //hid_report_writer::send_hid_report(hid_report_writer::HidReport::keyboard(
-        //    report.press(keycodes::HID_KEY_B),
-        //))
-        //.await;
-        keyboard.press(keycodes::HID_KEY_C).await;
-        Timer::after(Duration::from_millis(1000)).await;
+        if button.is_high() {
+            keyboard.press(keycodes::HID_KEY_C).await;
+        } else {
+            keyboard.release(keycodes::HID_KEY_C).await;
+        }
+        //Timer::after(Duration::from_millis(1000)).await;
     }
 }
 

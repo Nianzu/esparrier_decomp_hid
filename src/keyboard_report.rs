@@ -1,6 +1,3 @@
-use crate::hid_report_writer;
-use crate::keycodes;
-
 #[derive(Debug, Default)]
 pub struct KeyboardReport {
     modifier: u8,
