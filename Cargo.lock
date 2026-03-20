@@ -646,12 +646,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "esp-radio-rtos-driver"
-version = "0.2.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "543bc31d1851afd062357e7810c1a9633f282fd3993583499a841ab497cbca6c"
-
-[[package]]
 name = "esp-riscv-rt"
 version = "0.13.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -679,7 +673,6 @@ version = "0.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "162ec711c8d06e79c67b75d01595539e86b0aac209643af98ca87a12250428b3"
 dependencies = [
- "allocator-api2",
  "cfg-if",
  "document-features",
  "embassy-executor",
@@ -690,7 +683,6 @@ dependencies = [
  "esp-hal",
  "esp-hal-procmacros",
  "esp-metadata-generated",
- "esp-radio-rtos-driver",
  "esp-sync",
  "log",
  "portable-atomic",

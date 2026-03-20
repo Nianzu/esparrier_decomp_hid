@@ -5,9 +5,9 @@ edition = "2024"
 rust-version = "1.89"
 authors = ["Nico Zucca<nazucca7@gmail.com>"]
 description = "esp32_hid is a keyboard HID package for the ESP32"
-homepage = "https://github.com/windoze/esparrier"
+homepage = "https://github.com/Nianzu/esp32_hid"
 categories = ["embedded", "hardware-support"]
-repository = "https://github.com/windoze/esparrier.git"
+repository = "https://github.com/Nianzu/esp32_hid.git"
 license = "MIT"
 keywords = [
     "esp32s3",
@@ -21,13 +21,6 @@ keywords = [
 name = "esp32_hid"
 
 [dependencies]
-esp-bootloader-esp-idf = { version = "0.4.0", features = ["esp32s3"] }
-esp-backtrace = { version = "0.18.1", features = [
-    "esp32s3",
-    "panic-handler",
-    "println",
-] }
-
 esp-hal = { version = "1.0.0", features = ["esp32s3", "unstable"] }
 esp-println = { version = "0.16.1", default-features = false, features = [
     "colors",
@@ -46,7 +39,6 @@ embassy-time = { version = "0.5.0", features = ["generic-queue-8"] }
 esp-rtos = { version = "0.2.0", features = [
     "esp32s3",
     "embassy",
-    "esp-radio",
     "log-04",
 ] }
 static_cell = { version = "2.1.1", features = ["nightly"] }
@@ -58,6 +50,16 @@ embassy-usb = { version = "0.5.1", features = [
 ] }
 
 embassy-sync = "0.7.2"
+
+[dev-dependencies]
+esp-bootloader-esp-idf = { version = "0.4.0", features = ["esp32s3"] }
+esp-backtrace = { version = "0.18.1", features = [
+    "esp32s3",
+    "panic-handler",
+    "println",
+] }
+
+
 
 [features]
 [profile.dev]
