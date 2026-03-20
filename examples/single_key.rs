@@ -8,7 +8,7 @@ use embassy_time::{Duration, Timer};
 use esp_backtrace as _;
 use esp_hal::{
     clock::CpuClock,
-    gpio::{Input, InputConfig, Io, Pull},
+    gpio::{Input, InputConfig, Pull},
     otg_fs::Usb,
     peripherals::TIMG1,
     timer::timg::{MwdtStage, MwdtStageAction, TimerGroup, Wdt},
@@ -58,7 +58,6 @@ async fn main(spawner: Spawner) {
     let config = HidConfig::default();
     let mut keyboard = Keyboard::new(spawner, usb, config);
     // https://docs.espressif.com/projects/rust/esp-hal/1.0.0-beta.0/esp32/esp_hal/gpio/struct.Input.html
-    let io = Io::new(peripherals.IO_MUX);
     let config = InputConfig::default().with_pull(Pull::Down);
     let button = Input::new(peripherals.GPIO2, config);
     info!("Ready to send keypresses");

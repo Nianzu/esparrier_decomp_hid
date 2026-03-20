@@ -149,9 +149,7 @@ impl<'a> UsbHidReportWriter<'a> {
 impl HidReportWriter for UsbHidReportWriter<'_> {
     async fn write_report(&mut self, report: HidReport) {
         debug!("Sending report: {report:?}");
-        let data: &[u8] = match &report {
-            HidReport::Keyboard(data) => data,
-        };
+        let HidReport::Keyboard(data) = &report;
         // Assuming 10 * polling_interval is enough time for the host to poll the device, but not too short or too long.
         let timeout = Duration::from_millis((self.polling_interval as u64 * 10).clamp(100, 200));
         if with_timeout(timeout, async {
