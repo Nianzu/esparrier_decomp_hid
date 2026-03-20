@@ -9,6 +9,7 @@ homepage = "https://github.com/Nianzu/esp32_hid"
 categories = ["embedded", "hardware-support"]
 repository = "https://github.com/Nianzu/esp32_hid.git"
 license = "MIT"
+readme = "readme.md"
 keywords = [
     "esp32s3",
     "usb",
