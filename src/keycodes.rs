@@ -236,10 +236,3 @@ pub const HID_KEY_CONTROL_RIGHT: u8 = 0xE4;
 pub const HID_KEY_SHIFT_RIGHT: u8 = 0xE5;
 pub const HID_KEY_ALT_RIGHT: u8 = 0xE6;
 pub const HID_KEY_GUI_RIGHT: u8 = 0xE7;
-
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
-pub enum KeyCode {
-    None,
-    Key(u8),
-    Consumer(u16),
-}
